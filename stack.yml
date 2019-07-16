@@ -1,0 +1,30 @@
+---
+- hosts: webserver
+  #remote_user: yourusername
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: "Install Apache, MySQL, and PHP5"
+      yum: name={{ item }} state=present
+      with_items:
+        - httpd
+        - mariadb
+        - mariadb-bench
+        - mariadb-server
+        - mariadb-test
+        - php
+
+    - name: "Turn on Apache and MySQL and set them to run on boot"
+      service: name={{ item }} state=started enabled=yes
+      with_items:
+        - httpd
+        - mariadb
+
+    - name: Create a test database
+      mysql_db: name=testDb
+                state=present
+
+    - name: Create a new user for connections
+      mysql_user: name=webapp
+                  password=mypassword
+                  priv=*.*:ALL state=present

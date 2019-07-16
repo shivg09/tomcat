@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  tasks:
+    - name: http  installation
+      mysql_user:
+      name: ''
+      host: nagios.siqes.com
+      state: absent

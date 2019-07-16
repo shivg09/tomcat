@@ -1,0 +1,31 @@
+---
+- hosts: all
+  tasks:
+    - name:  install httpd package
+      yum: name=httpd state=installed
+    
+    - name: install php
+      yum: name={{item}} state=installed
+      with_items:
+        - php
+        - php-mysql
+        - php-pdo
+        - php-gd
+        - php-mbstring
+        - mysql-python
+ 
+    - name: copy file
+      shell: echo "<?php phpinfo (); ?>" > /var/www/html/info.php
+
+
+    - name: install mariadb
+      yum: name={{item}} state=installed
+      with_items:
+      - mariadb-server
+      - mariadb
+        
+    - name: restart httpd
+      service: name={{item}} state=restarted
+      with_items:
+        - httpd
+        - mariadb
