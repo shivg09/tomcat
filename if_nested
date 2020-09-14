@@ -1,0 +1,16 @@
+[root@localhost ~]# cat if.sh
+#!/bin/bash
+echo -n "entter the value:"
+read value
+if [ "$value" -le 0 ]
+then
+echo  "value less then  0"
+else
+echo "value is greater than 0"
+if [ "$value" -le 10 ]
+then
+echo "value less than or equal to 10"
+else
+echo "value is greather then 10"
+fi
+fi
