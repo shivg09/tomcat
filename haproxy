@@ -65,3 +65,113 @@ backend web-backend
     server  server2.dituniversity.edu.in 10.1.3.235:80 check
     server  server3.dituniversity.edu.in 10.1.3.229:80 check
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Web server configuration for load balancer
+
+ubuntu@server1:/etc/apache2/sites-available$ cat lberp.dituniversity.edu.in.conf 
+#<VirtualHost *:80>
+
+#ServerName dit.academiaerp.com
+#   ServerAlias www.dit.academiaerp.com
+
+#   DocumentRoot /var/www/html/dit/
+#   Redirect / https://dit.academiaerp.com/
+
+
+#</VirtualHost>
+<VirtualHost *:80>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual haching
+            CacheQuickHandler off
+            CacheLock on
+            CacheLockPath /tmp/mod_cache-lock
+            CacheLockMaxAge 5
+            CacheIgnoreHeaders Set-Cookie
+                                                                                                                               
+    <Location />
+        CacheEnable disk
+        CacheHeader on
+        CacheDefaultExpire 600
+        CacheMaxExpire 86400
+        CacheLastModifiedFactor 0.5
+        </Location>
+
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
+	#ServerName www.example.com
+        ServerName erp.dituniversity.edu.in
+        ServerAlias www.erp.dituniversity.edu.in
+
+	DocumentRoot /var/www/html/dit/
+
+        RewriteEngine on
+#        RewriteLog logs/apache-mod_rewrite
+        RewriteRule ^/rest/(.*)$ /dit/rest/$1 [L,PT]
+        RewriteRule ^/oauth/(.*)$ /dit/oauth/$1 [L,PT]
+       # RewriteRule ^/logout/(.*)$ /isbmu/logout [L,PT]
+        RewriteRule ^/*.jsp/(.*)$ /dit/*.jsp/$1 [L,PT]
+        RewriteRule ^/logout /dit/logout [L,PT]
+	RewriteRule ^/resources/images/uploads/PERSON/(.*)$ /dit/resources/images/uploads/PERSON/$1 [L,PT]
+        RewriteRule ^/resources/images/uploads/GALLERY_IMAGES/(.*)$ /dit/resources/images/uploads/GALLERY_IMAGES/$1 [L,PT]
+#	ServerAdmin webmaster@localhost
+#	DocumentRoot /var/www/html/dit/
+
+#        AliasMatch "/oauth/(.*)$" "/uoa/oauth/$1"
+
+	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+	# error, crit, alert, emerg.
+	# It is also possible to configure the loglevel for particular
+	# modules, e.g.
+	#LogLevel info ssl:warn
+
+	ErrorLog ${APACHE_LOG_DIR}/dit.error.log
+	CustomLog ${APACHE_LOG_DIR}/dit.access.log combined
+
+
+	# For most configuration files from conf-available/, which are
+	# enabled or disabled at a global level, it is possible to
+	# include a line for only one particular virtual host. For example the
+	# following line enables the CGI configuration for this host only
+	# after it has been globally disabled with "a2disconf".
+	#Include conf-available/serve-cgi-bin.conf
+        # JkMount /tomcat-demo* worker1
+
+        # Send JSPs for context /examples to worker named worker1
+
+
+        JkMount /dit/rest/* workerdit
+        JkMount /dit/oauth/* workerdit
+        JkMount /dit/logout workerdit
+        JkMount /dit/*.jsp workerdit
+	JkMount /dit/resources/images/uploads/PERSON/* workerdit
+        JkMount /dit/resources/images/uploads/GALLERY_IMAGES/* workerdit
+
+	# Other directives here
+	    <Directory />
+        	Options -FollowSymLinks
+	        AllowOverride None
+	    </Directory>
+
+	    <Directory /var/www/html/dit>
+		 Options -Indexes -FollowSymLinks -MultiViews
+		 AllowOverride None
+		 Order deny,allow
+		 allow from all
+	    </Directory>
+
+#SSLEngine on
+#      SSLCertificateFile /etc/apache2/ssl/server.crt
+#      SSLCertificateKeyFile /etc/apache2/ssl/server.key
+#      SSLCertificateChainFile /etc/apache2/ssl/server.csr
+
+#RemoteIPHeader X-Forwarded-For
+#RemoteIPInternalProxy 10.1.3.233
+AccessFileName .htaccess
+
+
+
+</VirtualHost>
+
