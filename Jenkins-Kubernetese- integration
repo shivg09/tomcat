@@ -23,9 +23,11 @@ Kubernetes on ubuntu 18.04
 master 2core with 4gb
 worker 1core with 1 gb
 
-sudo apt update -y
-sudo apt install docker.io -y
-
+we need to deploy kubectl on jenkins server to deploy project on k8s.
+sudo -i su - jenkins
+cd .kube
+vim config (copy and past the k8s config file contains)
+======================
 below command for both node and cluster
 https://github.com/justmeandopensource/kubernetes/blob/master/docs/install-cluster-ubuntu-20.md
 sudo apt-get update -y
