@@ -22,6 +22,9 @@ sudo systemctl restart jenkins
 Kubernetes on ubuntu 18.04
 master 2core with 4gb
 worker 1core with 1 gb
+
+sudo apt install docker.io -y
+
 below command for both node and cluster
 
 sudo apt-get update -y
@@ -39,8 +42,7 @@ apt-get update -y
 
 
 swapoff -a
-
-sed -i 'swap/s/^\(.*\)$/#\1/g' /etc/fstab
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 mobprobe br_netfilter
 sysctl -p
