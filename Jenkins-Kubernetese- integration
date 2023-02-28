@@ -44,7 +44,7 @@ apt-get update -y
 swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-mobprobe br_netfilter
+modprobe br_netfilter
 sysctl -p
 
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
