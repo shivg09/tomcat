@@ -26,9 +26,11 @@ worker 1core with 1 gb
 WE need to install kubectl on jenkins server to deploy project on k8s.
 
 apt-get update && apt-get install -y apt-transport-https curl
-	 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |apt-key add -
-	  echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" |sudo tee -a /etc/apt/source.list.d/kubernetes.list
-	  sudo apt-get update
+	
+	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |sudo apt-key add -
+	  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" |sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+	
+	sudo apt-get update
 	  sudo apt-get install -y kubectl
 
 sudo -i -u jenkins
