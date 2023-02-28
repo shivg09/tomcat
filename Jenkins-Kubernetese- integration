@@ -23,19 +23,21 @@ Kubernetes on ubuntu 18.04
 master 2core with 4gb
 worker 1core with 1 gb
 
+sudo apt update -y
 sudo apt install docker.io -y
 
 below command for both node and cluster
-
+https://loves.cloud/setting-up-a-kubernetes-cluster-on-ubuntu-18-04/  (TRY THIS IF NOT WORK EXISTING COMMAND)
 sudo apt-get update -y
 sudo apt-get install -y apt-transport-https
+apt-get update && apt-get install -y apt-transport-https curl
 
 sudo su -
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |apt-key add -
 
-cat <<EOF>/etc/apt/source.list.d/kubernetes.list
-deb https://apt.kubernetes.io/kubernetes-xenial main
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
 apt-get update -y
@@ -53,7 +55,7 @@ apt install docker.io -y
 
 usermod -aG docker ubuntu
 systemctl restart docker
-service enable docker.service
+systemctl enable docker.service
 
 apt-get install -y  kubelet kubeadm kubectl kubernetes-cni
 
