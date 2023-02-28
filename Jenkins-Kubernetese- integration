@@ -27,7 +27,7 @@ sudo apt update -y
 sudo apt install docker.io -y
 
 below command for both node and cluster
-https://loves.cloud/setting-up-a-kubernetes-cluster-on-ubuntu-18-04/  (TRY THIS IF NOT WORK EXISTING COMMAND)
+https://github.com/justmeandopensource/kubernetes/blob/master/docs/install-cluster-ubuntu-20.md
 sudo apt-get update -y
 sudo apt-get install -y apt-transport-https
 apt-get update && apt-get install -y apt-transport-https curl
