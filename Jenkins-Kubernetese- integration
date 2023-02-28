@@ -23,7 +23,14 @@ Kubernetes on ubuntu 18.04
 master 2core with 4gb
 worker 1core with 1 gb
 
-we need to deploy kubectl on jenkins server to deploy project on k8s.
+WE need to install kubectl on jenkins server to deploy project on k8s.
+
+apt-get update && apt-get install -y apt-transport-https curl
+	 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |apt-key add -
+	  echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" |sudo tee -a /etc/apt/source.list.d/kubernetes.list
+	  sudo apt-get update
+	  sudo apt-get install -y kubectl
+
 sudo -i -u jenkins
 cd .kube
 vim config (copy and past the k8s config file contains)
