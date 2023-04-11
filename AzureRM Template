@@ -1,0 +1,6 @@
+Download template during the vm creation and change the password with double coude "Passeo@23" and 
+for more then one vm we need to change the nic name and public ip address.
+login to cloud shell
+
+
+az deployment group create --resource-group rg1 --template-file template.json  --parameters parameters.json
